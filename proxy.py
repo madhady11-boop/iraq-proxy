@@ -1,26 +1,25 @@
-import os
-import time
+import socket, threading
 
-# 1. تحميل المحرك وتجهيزه
-print("📥 Downloading Engine...")
-os.system("curl -L https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip -o v2ray.zip && unzip -o v2ray.zip")
+def handle(c):
+    try:
+        # SOCKS5 Handshake
+        c.recv(262); c.sendall(b"\x05\x00")
+        c.recv(4)
+        # الاتصال بسيرفر تليجرام مباشرة
+        remote = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        remote.connect(("91.108.56.117", 443)) 
+        def f(a, b):
+            try:
+                while True: b.sendall(a.recv(4096))
+            except: pass
+        threading.Thread(target=f, args=(c, remote)).start()
+        f(remote, c)
+    except: pass
 
-# 2. كتابة الإعدادات مع مسار واضح
-print("📝 Writing Config...")
-config = """
-{
-  "inbounds": [{
-    "port": 8443,
-    "protocol": "vmess",
-    "settings": {"clients": [{"id": "88888888-8888-8888-8888-888888888888"}]},
-    "streamSettings": {"network": "ws", "wsSettings": {"path": "/ahmed"}}
-  }],
-  "outbounds": [{"protocol": "freedom"}]
-}
-"""
-with open("config.json", "w") as f:
-    f.write(config)
-
-# 3. تشغيل السيرفر
-print("🚀 Server is Starting...")
-os.system("./v2ray run -c config.json")
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind(("0.0.0.0", 8443))
+s.listen(50)
+print("🚀 Simple SOCKS5 is LIVE")
+while True:
+    conn, _ = s.accept()
+    threading.Thread(target=handle, args=(conn,)).start()
