@@ -1,36 +1,9 @@
-import socket
-import threading
+import os
 
-def handle_client(connection):
-    try:
-        # SOCKS5 Handshake
-        data = connection.recv(262)
-        connection.sendall(b"\x05\x00")
-        
-        # الاتصال بالوجهة (تليجرام أو غيره)
-        data = connection.recv(4)
-        # تشغيل التمرير
-        remote = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        remote.connect(("91.108.56.117", 443)) # IP تليجرام العالمي
-        
-        def forward(src, dst):
-            try:
-                while True:
-                    data = src.recv(4096)
-                    if not data: break
-                    dst.sendall(data)
-            except: pass
+# هذا الكود يثبت ويشغل سيرفر VLESS بسيط
+os.system("curl -L https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip -o v2ray.zip && unzip v2ray.zip")
+with open("config.json", "w") as f:
+    f.write('{"inbounds":[{"port":8443,"protocol":"vless","settings":{"clients":[{"id":"88888888-8888-8888-8888-888888888888"}],"decryption":"none"},"streamSettings":{"network":"ws"}}],"outbounds":[{"protocol":"freedom"}]}')
 
-        threading.Thread(target=forward, args=(connection, remote)).start()
-        forward(remote, connection)
-    except:
-        pass
-
-if __name__ == "__main__":
-    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind(('0.0.0.0', 8443))
-    server.listen(100)
-    print("🚀 SOCKS5 Server Live on 8443")
-    while True:
-        conn, addr = server.accept()
-        threading.Thread(target=handle_client, args=(conn,)).start()
+print("🚀 VLESS SERVER IS READY")
+os.system("./v2ray run -c config.json")
