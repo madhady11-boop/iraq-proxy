@@ -1,25 +1,10 @@
-import socket, threading
+import os
 
-def handle(c):
-    try:
-        # SOCKS5 Handshake
-        c.recv(262); c.sendall(b"\x05\x00")
-        c.recv(4)
-        # الاتصال بسيرفر تليجرام مباشرة
-        remote = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        remote.connect(("91.108.56.117", 443)) 
-        def f(a, b):
-            try:
-                while True: b.sendall(a.recv(4096))
-            except: pass
-        threading.Thread(target=f, args=(c, remote)).start()
-        f(remote, c)
-    except: pass
+# تحميل أداة MTProxy الاحترافية
+print("📥 Installing MTProxy...")
+os.system("curl -L https://github.com/9seconds/mtg/releases/latest/download/mtg-2.1.7-linux-amd64.tar.gz -o mtg.tar.gz && tar -xvf mtg.tar.gz")
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(("0.0.0.0", 8443))
-s.listen(50)
-print("🚀 Simple SOCKS5 is LIVE")
-while True:
-    conn, _ = s.accept()
-    threading.Thread(target=handle, args=(conn,)).start()
+# تشغيل البروكسي (بورت 8443 مع سر سري)
+print("🚀 MTProto is Starting...")
+# السر هو: ee00000000000000000000000000000000676f6f676c652e636f6d
+os.system("./mtg-2.1.7-linux-amd64/mtg run ee00000000000000000000000000000000676f6f676c652e636f6d -b 0.0.0.0:8443")
