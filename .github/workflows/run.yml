@@ -1,0 +1,14 @@
+name: Global-Proxy
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Proxy
+        run: |
+          python3 proxy.py &
+          sleep 5
+          curl -L --output cf.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+          sudo dpkg -i cf.deb
+          cloudflared tunnel --url tcp://127.0.0.1:8443
