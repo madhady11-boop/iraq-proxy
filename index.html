@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="أرنوبي">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="description" content="أرنوبي دليفري - اطلب من مأكولات الأرنب الضاحك | توصيل سريع | أكل طازج">
+    <title>🛵 أرنوبي دليفري | مأكولات الأرنب الضاحك</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold: #fbbf24;
+            --gold-dark: #d97706;
+            --dark: #1a1a2e;
+            --darker: #16213e;
+        }
+        
+        * { font-family: 'Cairo', sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 50%, #16213e 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        
+        /* تأثيرات زجاجية فاخرة */
+        .glass { 
+            background: rgba(255,255,255,0.05); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .glass-light { 
+            background: rgba(255,255,255,0.9); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        /* تدرجات ذهبية */
+        .gold-bg { background: linear-gradient(135deg, #fbbf24 0%, #d97706 50%, #b45309 100%); }
+        .gold-text { 
+            background: linear-gradient(135deg, #fbbf24, #f59e0b, #d97706);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .gold-border { border: 2px solid rgba(251,191,36,0.3); }
+        
+        /* أنيميشن */
+        @keyframes float { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-15px); } }
+        @keyframes pulse-gold { 0%,100% { box-shadow: 0 0 0 0 rgba(251,191,36,0.4); } 50% { box-shadow: 0 0 0 20px rgba(251,191,36,0); } }
+        @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes bounceIn { 0% { transform: scale(0.3); opacity: 0; } 50% { transform: scale(1.05); } 70% { transform: scale(0.9); } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+        
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-pulse-gold { animation: pulse-gold 2s infinite; }
+        .animate-slideUp { animation: slideUp 0.5s ease-out; }
+        .animate-fadeIn { animation: fadeIn 0.5s ease-out; }
+        .animate-bounceIn { animation: bounceIn 0.6s ease-out; }
+        
+        /* سكرول بار */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #fbbf24, #d97706); border-radius: 10px; }
+        
+        /* هيرو سكشن */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(26,26,46,0.95), rgba(22,33,62,0.9));
+            border-radius: 40px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(251,191,36,0.25), transparent 70%);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(251,191,36,0.15), transparent 70%);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+        
+        /* كارد المنتج */
+        .product-card {
+            background: white;
+            border-radius: 24px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #fbbf24, #d97706, #fbbf24);
+            background-size: 200% auto;
+            animation: shimmer 2s linear infinite;
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(251,191,36,0.25);
+        }
+        .product-card:active { transform: scale(0.97); }
+        
+        /* إيموجي الطعام */
+        .food-emoji {
+            font-size: 50px;
+            display: block;
+            margin-bottom: 10px;
+            transition: transform 0.3s;
+        }
+        .product-card:hover .food-emoji { transform: scale(1.2) rotate(5deg); }
+        
+        /* أزرار */
+        .btn-gold {
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            color: #1a1a2e;
+            font-weight: 900;
+            border-radius: 16px;
+            padding: 12px 24px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(251,191,36,0.3);
+            border: none;
+            cursor: pointer;
+        }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(251,191,36,0.5); }
+        .btn-gold:active { transform: scale(0.95); }
+        
+        /* سلة عائمة */
+        .fab-cart {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            border-radius: 50%;
+            box-shadow: 0 8px 30px rgba(251,191,36,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            cursor: pointer;
+            z-index: 999;
+            transition: all 0.3s;
+            border: none;
+        }
+        .fab-cart:hover { transform: scale(1.1); }
+        .fab-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            box-shadow: 0 4px 10px rgba(239,68,68,0.5);
+        }
+        
+        /* نافذة السلة */
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+        .cart-sheet {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 30px 30px 0 0;
+            z-index: 1001;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            animation: slideUp 0.4s ease-out;
+            box-shadow: 0 -20px 60px rgba(0,0,0,0.3);
+        }
+        
+        /* إحصاءات */
+        .stat-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        /* أقسام التصنيف */
+        .category-btn {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-size: 14px;
+        }
+        .category-btn:hover { background: rgba(255,255,255,0.2); }
+        .category-btn.active { background: linear-gradient(135deg, #fbbf24, #d97706); color: #1a1a2e; border-color: transparent; font-weight: 900; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero { min-height: 200px; border-radius: 30px; }
+            .product-card { padding: 15px 10px; }
+            .food-emoji { font-size: 35px; }
+            .fab-cart { width: 55px; height: 55px; bottom: 20px; left: 20px; font-size: 22px; }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-3 md:p-6">
+
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSy5S-w-4dH0aVyz_6QbyADJpWuSetSNwTPM",
+            authDomain: "ahmed-teach.firebaseapp.com",
+            projectId: "ahmed-teach",
+            storageBucket: "ahmed-teach.firebasestorage.app",
+            messagingSenderId: "446158693601",
+            appId: "1:446158693601:web:b8dfbe780485a1e6d3c3a0"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        window.db = db;
+        window.collection = collection; window.addDoc = addDoc;
+        window.getDocs = getDocs; window.query = query; window.orderBy = orderBy;
+        
+        console.log("🛵 أرنوبي دليفري جاهز");
+        window.dispatchEvent(new Event('firebaseReady'));
+    </script>
+
+    <!-- هيرو سكشن -->
+    <header class="hero p-8 md:p-16 mb-8 text-white">
+        <div class="relative z-10 w-full max-w-4xl mx-auto">
+            <div class="flex justify-center mb-6">
+                <div class="gold-bg p-5 rounded-2xl animate-float">
+                    <span class="text-6xl">🛵🐰</span>
+                </div>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black gold-text mb-3">أرنوبي دليفري</h1>
+            <p class="text-xl md:text-2xl text-gray-300 mb-2">اطلب من مأكولات الأرنب الضاحك</p>
+            <p class="text-base text-gray-400 mb-6">🚀 توصيل سريع • أكل طازج • لجودة الملوك</p>
+            <div class="flex justify-center flex-wrap gap-4 text-sm">
+                <span class="stat-card"><i class="fas fa-clock text-yellow-400 ml-1"></i> مفتوح 24 ساعة</span>
+                <span class="stat-card"><i class="fas fa-star text-yellow-400 ml-1"></i> 4.9 ⭐</span>
+                <span class="stat-card"><i class="fas fa-motorcycle text-yellow-400 ml-1"></i> توصيل 30-45 د</span>
+                <span class="stat-card"><i class="fas fa-shield-alt text-yellow-400 ml-1"></i> ضمان الجودة</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- المحتوى -->
+    <main class="max-w-6xl mx-auto">
+        <!-- الأصناف -->
+        <div class="glass rounded-3xl p-4 mb-6 overflow-x-auto">
+            <div id="categoriesRow" class="flex gap-3 min-w-max">
+                <button onclick="filterProducts('all')" class="category-btn active"><i class="fas fa-star ml-1"></i> الكل</button>
+            </div>
+        </div>
+
+        <!-- شبكة المنتجات -->
+        <div class="glass rounded-3xl p-4 md:p-6 mb-32">
+            <div class="relative mb-6">
+                <i class="fas fa-search absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 z-10"></i>
+                <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="شنو تشتهي اليوم؟ ابحث عن وجبتك المفضلة..." 
+                       class="w-full bg-white/95 rounded-2xl py-4 pr-14 pl-6 shadow-lg border-0 text-lg focus:ring-2 focus:ring-yellow-400 outline-none">
+            </div>
+            <div id="productsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
+                <div class="col-span-full text-center py-16">
+                    <div class="animate-float inline-block">
+                        <span class="text-6xl">🛵</span>
+                    </div>
+                    <p class="text-gray-400 mt-4 text-lg">جاري تحميل المأكولات الشهية...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- سلة عائمة -->
+    <button class="fab-cart animate-pulse-gold" onclick="openCart()">
+        🛒
+        <span class="fab-badge" id="cartFabBadge">0</span>
+    </button>
+
+    <!-- نافذة السلة -->
+    <div id="cartOverlay" class="cart-overlay hidden" onclick="closeCart()"></div>
+    <div id="cartSheet" class="cart-sheet hidden">
+        <div class="flex justify-between items-center p-5 border-b border-gray-100">
+            <div class="flex items-center gap-3">
+                <span class="text-3xl">🛒</span>
+                <div>
+                    <h2 class="text-xl font-black">سلة الطلبات</h2>
+                    <p class="text-sm text-gray-500" id="cartPanelCount">0 منتجات</p>
+                </div>
+            </div>
+            <button onclick="closeCart()" class="w-10 h-10 rounded-full bg-gray-100 hover:bg-red-100 hover:text-red-500 flex items-center justify-center text-xl transition">✕</button>
+        </div>
+        
+        <div id="cartPanelItems" class="flex-1 overflow-y-auto p-5 space-y-3">
+            <div class="text-center py-16">
+                <span class="text-6xl block mb-4">🛒</span>
+                <p class="text-gray-400 text-lg">سلتك فارغة</p>
+                <p class="text-gray-300 text-sm">أضف وجباتك المفضلة 🐰</p>
+            </div>
+        </div>
+        
+        <!-- معلومات التوصيل -->
+        <div class="border-t border-gray-100 p-5 space-y-3 bg-gray-50/50">
+            <h3 class="font-black text-gray-800 flex items-center gap-2">
+                <span class="gold-bg p-2 rounded-lg text-white"><i class="fas fa-map-marker-alt"></i></span>
+                معلومات التوصيل
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <input type="text" id="customerName" placeholder="👤 الاسم الكامل *" class="w-full bg-white rounded-xl p-3 border border-gray-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none">
+                <input type="tel" id="customerPhone" placeholder="📞 رقم الهاتف *" class="w-full bg-white rounded-xl p-3 border border-gray-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none">
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <input type="text" id="customerArea" placeholder="📍 المنطقة *" class="w-full bg-white rounded-xl p-3 border border-gray-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none">
+                <input type="text" id="customerStreet" placeholder="🏠 الشارع / المعلم" class="w-full bg-white rounded-xl p-3 border border-gray-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none">
+            </div>
+            <textarea id="customerNotes" placeholder="📝 ملاحظات (اختياري)" rows="2" class="w-full bg-white rounded-xl p-3 border border-gray-200 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100 outline-none resize-none"></textarea>
+        </div>
+        
+        <!-- المجموع -->
+        <div class="border-t border-gray-100 p-5 space-y-3">
+            <div class="flex justify-between text-gray-600"><span>المجموع الفرعي:</span><span class="font-bold" id="cartSubtotal">0 د.ع</span></div>
+            <div class="flex justify-between text-blue-600"><span>أجور التوصيل:</span><span class="font-bold" id="cartDeliveryFee">2,000 د.ع</span></div>
+            <div class="flex justify-between items-center text-2xl font-black border-t pt-3">
+                <span>الإجمالي:</span>
+                <span class="gold-text" id="cartTotal">0 د.ع</span>
+            </div>
+            <button onclick="submitDeliveryOrder()" class="w-full btn-gold text-lg py-4 flex items-center justify-center gap-2">
+                <i class="fas fa-paper-plane"></i> إرسال الطلب
+            </button>
+        </div>
+    </div>
+
+    <!-- نجاح -->
+    <div id="successOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[2000] flex items-center justify-center hidden" style="animation: fadeIn 0.3s ease;">
+        <div class="glass-light rounded-3xl p-8 md:p-12 text-center max-w-md mx-4" style="animation: bounceIn 0.6s ease;">
+            <div class="animate-float inline-block mb-6">
+                <span class="text-7xl">🎉</span>
+            </div>
+            <h2 class="text-2xl md:text-3xl font-black mb-3">تم الطلب بنجاح!</h2>
+            <p class="text-gray-600 mb-2">رقم طلبك هو</p>
+            <p class="text-4xl md:text-5xl font-black gold-text mb-1" id="successOrderNumber">0</p>
+            <p class="text-gray-500 text-sm mb-6">راح يصلك تأكيد عبر الهاتف قريباً</p>
+            <button onclick="closeSuccess()" class="btn-gold px-10 py-3 text-lg">تم 👍</button>
+        </div>
+    </div>
+
+    <script>
+        let products = [], categories = [], cart = [];
+        let selectedCategory = 'all';
+
+        // أيقونات الطعام حسب الصنف
+        const foodIcons = {
+            'مشروبات': '🥤', 'ساخنة': '☕', 'باردة': '🧊', 'عصائر': '🧃',
+            'ساندويتش': '🥪', 'فلافل': '🧆', 'بيتزا': '🍕', 'برغر': '🍔',
+            'حلويات': '🍰', 'كيك': '🎂', 'معجنات': '🥐', 'فطور': '🍳',
+            'افتراضي': '🍽️'
+        };
+
+        function getFoodIcon(name, category) {
+            for (const [key, icon] of Object.entries(foodIcons)) {
+                if ((category && category.includes(key)) || name.includes(key)) return icon;
+            }
+            return foodIcons['افتراضي'];
+        }
+
+        window.addEventListener('firebaseReady', loadData);
+
+        async function loadData() {
+            try {
+                const catSnap = await getDocs(collection(db, "categories"));
+                categories = catSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+                
+                const prodSnap = await getDocs(collection(db, "products"));
+                products = prodSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+                
+                renderCategories();
+                filterProducts('all');
+            } catch (e) {
+                document.getElementById('productsGrid').innerHTML = '<p class="text-red-400 col-span-full text-center py-16">❌ فشل تحميل البيانات</p>';
+            }
+        }
+
+        function renderCategories() {
+            const row = document.getElementById('categoriesRow');
+            row.innerHTML = `<button onclick="filterProducts('all')" class="category-btn active"><i class="fas fa-star ml-1"></i> الكل</button>` +
+                categories.map(c => `<button onclick="filterProducts('${c.id}')" class="category-btn"><i class="fas fa-tag ml-1"></i> ${c.name}</button>`).join('');
+        }
+
+        window.filterProducts = (catId) => {
+            selectedCategory = catId;
+            document.querySelectorAll('.category-btn').forEach(b => {
+                b.classList.remove('active');
+            });
+            if (event.target) {
+                event.target.classList.add('active');
+            }
+            const filtered = catId === 'all' ? products : products.filter(p => p.category_id === catId);
+            renderProducts(filtered);
+        };
+
+        window.searchProducts = () => {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = products.filter(p => p.name.toLowerCase().includes(term));
+            renderProducts(filtered);
+        };
+
+        function renderProducts(list) {
+            const grid = document.getElementById('productsGrid');
+            if (!list.length) {
+                grid.innerHTML = '<div class="col-span-full text-center py-16"><span class="text-6xl block mb-4">🔍</span><p class="text-gray-400 text-lg">ماكو منتجات</p><p class="text-gray-500 text-sm">جرب بحث آخر</p></div>';
+                return;
+            }
+            grid.innerHTML = list.map(p => {
+                const cat = categories.find(c => c.id === p.category_id);
+                const icon = getFoodIcon(p.name, cat?.name || '');
+                return `
+                <div onclick="addToCart('${p.id}')" class="product-card">
+                    <span class="food-emoji">${icon}</span>
+                    <h3 class="font-black text-gray-800 text-sm md:text-base">${p.name}</h3>
+                    ${p.description ? `<p class="text-xs text-gray-400 truncate mt-1">${p.description}</p>` : ''}
+                    <p class="text-lg md:text-xl font-black gold-text mt-2">${p.price.toLocaleString()} <small class="text-xs text-gray-400">د.ع</small></p>
+                    <span class="inline-block mt-3 text-xs bg-yellow-50 text-yellow-700 px-3 py-1 rounded-full font-bold">
+                        <i class="fas fa-plus ml-1"></i> أضف للسلة
+                    </span>
+                </div>`;
+            }).join('');
+        }
+
+        window.addToCart = (id) => {
+            const p = products.find(x => x.id === id);
+            if (!p) return;
+            const existing = cart.find(i => i.id === id);
+            existing ? existing.quantity++ : cart.push({ id: p.id, name: p.name, price: p.price, quantity: 1 });
+            updateCartUI();
+            
+            const fab = document.querySelector('.fab-cart');
+            fab.style.transform = 'scale(1.2)';
+            setTimeout(() => fab.style.transform = 'scale(1)', 200);
+        };
+
+        window.updateQty = (id, delta) => {
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.quantity += delta;
+                if (item.quantity <= 0) cart = cart.filter(i => i.id !== id);
+            }
+            updateCartUI();
+        };
+
+        function updateCartUI() {
+            const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
+            const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+            const deliveryFee = 2000;
+            const total = subtotal + deliveryFee;
+            
+            document.getElementById('cartFabBadge').innerText = totalItems;
+            document.getElementById('cartPanelCount').innerText = `${totalItems} منتجات`;
+            
+            const itemsDiv = document.getElementById('cartPanelItems');
+            if (!cart.length) {
+                itemsDiv.innerHTML = '<div class="text-center py-16"><span class="text-6xl block mb-4">🛒</span><p class="text-gray-400 text-lg">سلتك فارغة</p><p class="text-gray-300 text-sm">أضف وجباتك المفضلة 🐰</p></div>';
+            } else {
+                itemsDiv.innerHTML = cart.map(i => `
+                    <div class="flex justify-between items-center bg-gray-50 p-4 rounded-2xl">
+                        <div>
+                            <span class="font-black text-gray-800">${i.name}</span>
+                            <span class="text-sm text-gray-500 block">${i.price.toLocaleString()} د.ع</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button onclick="updateQty('${i.id}', -1)" class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-black hover:bg-red-200 transition">-</button>
+                            <span class="font-black text-lg w-6 text-center">${i.quantity}</span>
+                            <button onclick="updateQty('${i.id}', 1)" class="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-black hover:bg-green-200 transition">+</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            document.getElementById('cartSubtotal').innerText = `${subtotal.toLocaleString()} د.ع`;
+            document.getElementById('cartDeliveryFee').innerText = `${deliveryFee.toLocaleString()} د.ع`;
+            document.getElementById('cartTotal').innerText = `${total.toLocaleString()} د.ع`;
+        }
+
+        window.openCart = () => {
+            document.getElementById('cartOverlay').classList.remove('hidden');
+            document.getElementById('cartSheet').classList.remove('hidden');
+        };
+        window.closeCart = () => {
+            document.getElementById('cartOverlay').classList.add('hidden');
+            document.getElementById('cartSheet').classList.add('hidden');
+        };
+
+        window.submitDeliveryOrder = async () => {
+            if (!cart.length) return alert('الرجاء إضافة منتجات للسلة!');
+            
+            const name = document.getElementById('customerName').value.trim();
+            const phone = document.getElementById('customerPhone').value.trim();
+            const area = document.getElementById('customerArea').value.trim();
+            const street = document.getElementById('customerStreet').value.trim();
+            const notes = document.getElementById('customerNotes').value.trim();
+            
+            if (!name || !phone || !area) {
+                return alert('الرجاء تعبئة الاسم ورقم الهاتف والمنطقة على الأقل');
+            }
+            
+            const subtotal = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+            const deliveryFee = 2000;
+            const total = subtotal + deliveryFee;
+            const orderNumber = Math.floor(100 + Math.random() * 900);
+            
+            try {
+                await addDoc(collection(db, "orders"), {
+                    orderNumber, items: cart, subtotal, deliveryFee, total,
+                    status: 'جديد', isDelivery: true,
+                    customerName: name, customerPhone: phone,
+                    customerAddress: `${area} - ${street}`, notes,
+                    createdAt: new Date()
+                });
+                
+                const BOT_TOKEN = '7945152379:AAFtLazXVvOSYzxdwFkQKkRDf7HzRgzG9_s';
+                const CHAT_ID = '909090929';
+                let msg = `🛵 *طلب توصيل جديد #${orderNumber}* 🛵\n\n👤 *${name}*\n📞 ${phone}\n📍 ${area} - ${street}`;
+                if (notes) msg += `\n📝 ${notes}`;
+                msg += `\n\n📋:\n${cart.map(i => `   - ${i.quantity}x ${i.name}`).join('\n')}`;
+                msg += `\n\n💰 *الإجمالي: ${total.toLocaleString()} د.ع*`;
+                
+                const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+                const proxy = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+                await fetch(proxy, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: msg, parse_mode: 'Markdown' })
+                });
+                
+                document.getElementById('successOrderNumber').innerText = orderNumber;
+                document.getElementById('successOverlay').classList.remove('hidden');
+                closeCart();
+                cart = []; updateCartUI();
+            } catch (e) {
+                alert('❌ فشل إرسال الطلب. تأكد من الإنترنت وحاول مرة أخرى.');
+            }
+        };
+
+        window.closeSuccess = () => {
+            document.getElementById('successOverlay').classList.add('hidden');
+        };
+
+        // إغلاق السلة بضغطة Esc
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeCart();
+        });
+    </script>
+</body>
+</html>
